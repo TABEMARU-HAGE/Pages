@@ -148,7 +148,7 @@ Once you play AI or online, click the button in play or on the Home Screen
 </p>
 </div>
     <div class="titlebar" id="titlebar">
-        <div id="ttt" onclick="openwindow()">&nbsp;☀ Slither.io iOS ModMenu</div>
+        <div id="ttt" onclick="openwindow()">&nbsp;☀ Slither.io <span id="realtime"></span></div>
     </div>
 
     <div id="content" class="content scrollable">
@@ -189,14 +189,37 @@ let zoomLocker = null; // ズーム用のロック用変数
 let speedLocker = null; // スピード用のロック用変数
 let freezeLocker = null; // フリーズ用のロック用変数
 
+let clockInterval = null; // 時刻表示用のインターバルを管理する変数
+
+// 時刻更新用の関数を定義
+function updateTime() {
+    const ttt = document.getElementById("ttt");
+    const content = document.getElementById('content');
+    const isVisible = content.style.display === 'block';
+
+    const nowTime = new Date();
+    const nowHour = nowTime.getHours().toString().padStart(2, '0');
+    const nowMin = nowTime.getMinutes().toString().padStart(2, '0');
+    const nowSec = nowTime.getSeconds().toString().padStart(2, '0');
+    const timeString = + nowHour + ":" + nowMin + ":" + nowSec;
+
+    // ウィンドウの開閉状態に応じて表示を切り替え
+    ttt.innerHTML = isVisible ? "&nbsp;☀&nbsp;Slither.io " + timeString : "&nbsp;☁&nbsp;Slither.io " + timeString;
+}
+
 function openwindow() {
     const content = document.getElementById('content');
-    const ttt = document.getElementById("ttt");
     const isVisible = content.style.display === 'block';
 
     content.style.display = isVisible ? 'none' : 'block'; // コンテンツをトグル
-    ttt.innerHTML = isVisible ? "&nbsp;☁&nbsp;Slither.io ImGui-html" : "&nbsp;☀&nbsp;Slither.io ImGui-html"; // アイコンをトグル
+
+    // ウィンドウの開閉に応じてウィンドウサイズを変更
     setWindowRect(500, 60, 300, isVisible ? 30 : 185);
+}
+
+// 初回ロード時にリアルタイムの時刻表示を開始
+if (clockInterval === null) {
+    clockInterval = setInterval(updateTime, 1000); // 1秒ごとに時刻を更新
 }
 
 function toggleSlider() {
@@ -326,6 +349,18 @@ function speede() {
         }, 1);  // 1msごとに値を更新
     }
 }
+function showClock() {
+  let realtimeElement = document.getElementById("realtime");
+  if (realtimeElement) { // 要素が存在するかをチェック
+    let nowTime = new Date();
+    let nowHour = nowTime.getHours().toString().padStart(2, '0');
+    let nowMin  = nowTime.getMinutes().toString().padStart(2, '0');
+    let nowSec  = nowTime.getSeconds().toString().padStart(2, '0');
+    let msg = nowHour + ":" + nowMin + ":" + nowSec;
+    realtimeElement.innerHTML = msg;
+  }
+}
+setInterval(showClock, 1000);
 
 // 初期設定
 setWindowRect(500, 60, 300, 185);

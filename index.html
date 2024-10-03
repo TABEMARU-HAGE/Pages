@@ -159,8 +159,8 @@ Once you play AI or online, click the button in play or on the Home Screen
             Background black
         </label>
         <label class="checkboxItem">
-            <input type="checkbox" name="checkbox" value="No-effects" class="checkbox" />
-            null
+            <input type="checkbox" name="checkbox" id="NoEffect" value="Noeffect" class="checkbox" />
+            No boost effect(online only)
         </label>
         <label class="checkboxItem">
             <input type="checkbox" name="checkbox" value="選択肢3" class="checkbox" />
@@ -188,6 +188,7 @@ let baseAddress = null; // baseAddress の初期値
 let zoomLocker = null; // ズーム用のロック用変数
 let speedLocker = null; // スピード用のロック用変数
 let freezeLocker = null; // フリーズ用のロック用変数
+let effectLocker = null; // フリーズ用のロック用変数
 
 let clockInterval = null; // 時刻表示用のインターバルを管理する変数
 
@@ -298,6 +299,26 @@ document.getElementById('backblack').addEventListener('change', function() {
         if (freezeLocker !== null) {
             clearInterval(freezeLocker);
             freezeLocker = null; // フリーズロッカーをリセット
+        }
+    }
+});
+
+document.getElementById('NoEffect').addEventListener('change', function() {
+    if (this.checked) {
+        // チェックされたとき、baseAddressから0x140を引いた値を22にする
+        if (baseAddress !== null) {
+            const effect = (parseInt(baseAddress, 16) - 0x140).toString(16);
+            // フリーズを開始
+            effectLocker = setInterval(function() {
+                
+                h5gg.setValue('0x' + effect, 22, 'F64');
+            }, 250); // 250msごとに値を更新
+        }
+    } else {
+        // チェックが外れた場合、フリーズロックをクリア
+        if (effectLocker !== null) {
+            clearInterval(effectLocker);
+            effectLocker = null; // フリーズロッカーをリセット
         }
     }
 });

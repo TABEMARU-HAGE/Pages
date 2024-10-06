@@ -154,6 +154,10 @@ Once you play AI or online, click the button in play or on the Home Screen
     <div id="content" class="content scrollable">
         <div class="intro">ModMenu by Tabemaru</div>
         <hr>
+                <label class="checkboxItem">
+    <input type="checkbox" name="checkbox" id="icon" value="選択肢3" class="checkbox" onchange="hide()" />
+    Hide icon
+</label>
         <label class="checkboxItem">
             <input type="checkbox" name="checkbox" id="backblack" value="Background-black" class="checkbox" />
             Background black
@@ -382,6 +386,17 @@ function showClock() {
   }
 }
 setInterval(showClock, 1000);
+
+function hide() {
+    const hideicon = document.getElementById('icon');
+
+    // チェックボックスがチェックされているかを確認
+    if (hideicon.checked) {
+        setButtonImage("https://raw.githubusercontent.com/TABEMARU-HAGE/HTML-JavaScript-CSS/refs/heads/main/IMG_0244.png");
+    } else {
+        setButtonImage("https://raw.githubusercontent.com/TABEMARU-HAGE/HTML-JavaScript-CSS/refs/heads/main/3_20240828162441.png");
+    }
+}
 
 // 初期設定
 setWindowRect(500, 60, 300, 185);

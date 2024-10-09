@@ -205,8 +205,9 @@ function updateTime() {
     const nowTime = new Date();
     const nowHour = nowTime.getHours().toString().padStart(2, '0');
     const nowMin = nowTime.getMinutes().toString().padStart(2, '0');
-    const nowSec = nowTime.getSeconds().toString().padStart(2, '0');
-    const timeString = + nowHour + ":" + nowMin + ":" + nowSec;
+    const month = (nowTime.getMonth() + 1).toString().padStart(2, '0'); // 月（0ベースなので+1）
+    const day = nowTime.getDate().toString().padStart(2, '0'); 
+    const timeString = + month + "/" + day + "&nbsp" +nowHour + ":" + nowMin;
 
     // ウィンドウの開閉状態に応じて表示を切り替え
     ttt.innerHTML = isVisible ? "&nbsp;☀&nbsp;Slither.io " + timeString : "&nbsp;☁&nbsp;Slither.io " + timeString;

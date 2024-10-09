@@ -265,6 +265,7 @@ function startExecution() {
         baseAddress = results[0].address; // baseAddressを取得
     } else {
         h5gg.clearResults();
+        h5gg.searchNumber('-1', 'F64', '0x000000000', '0x290000000')
         h5gg.searchNearby('430', 'F64', '0x8');
         results = h5gg.getResults(1, 0);
         if (results.length > 0) {

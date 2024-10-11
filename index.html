@@ -325,6 +325,7 @@ document.getElementById('NoEffect').addEventListener('change', function() {
         if (effectLocker !== null) {
             clearInterval(effectLocker);
             effectLocker = null; // フリーズロッカーをリセット
+            h5gg.setValue('0x' + effect, 5.39, 'F64');
         }
     }
 });

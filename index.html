@@ -150,7 +150,8 @@ Once you play AI or online, click the button in play or on the Home Screen
     <div class="titlebar" id="titlebar">
         <div id="ttt" onclick="openwindow()">&nbsp;☀ Slither.io <span id="realtime"></span></div>
     </div>
-
+<input type="range" name="range" value="0.70" min="0.01" max="1.0" step="0.003" id="zzomsec" class="inputRange" style="display: none; margin-top: 17px; width: 215px;>
+    
     <div id="content" class="content scrollable">
         <div class="intro">ModMenu by Tabemaru</div>
         <hr>
@@ -175,6 +176,12 @@ Once you play AI or online, click the button in play or on the Home Screen
             null
         </label>
         <hr>
+    <a style="font-size: 13px">Display the document under the titlebar</a>
+         <label class="checkboxItem">
+            <input type="checkbox" name="checkbox" id="zoomwhere" value="選択肢4" class="checkbox" />
+            Zoom
+        </label>
+        <hr>
         <label class="checkboxItem">
             <input type="checkbox" id="zoomCheckbox" class="checkbox" onchange="toggleSlider()" />
             <span style="line-height: 20px;">Zoom</span>
@@ -193,7 +200,7 @@ let zoomLocker = null; // ズーム用のロック用変数
 let speedLocker = null; // スピード用のロック用変数
 let freezeLocker = null; // フリーズ用のロック用変数
 let effectLocker = null; // フリーズ用のロック用変数
-
+let zoom2Locker = null;
 let clockInterval = null; // 時刻表示用のインターバルを管理する変数
 
 // 時刻更新用の関数を定義
@@ -330,6 +337,35 @@ document.getElementById('NoEffect').addEventListener('change', function() {
         }
     }
 });
+
+document.getElementById('zoomwhere').addEventListener('change', function() {
+    const zzom2 = document.getElementById('zzomsec');
+    // チェックボックスの状態に応じて、zzom2の表示・非表示を切り替える
+    zzom2.style.display = this.checked ? 'inline-block' : 'none';
+});
+
+function zoome2() {
+        let slidersec = parseFloat(document.getElementById("zzomsec").value);
+    
+    // baseAddressが文字列である場合を考慮し、16進数の数値に変換する
+    let baseAddressNum = parseInt(baseAddress, 16);
+    
+    // baseAddressから0x168を引き算してzoomを計算
+    let zoom = baseAddressNum - 0x260;
+
+    // zoomがNaNでないかをチェック
+    if (!isNaN(zoom)) {
+        // ズームインターバルが既に存在する場合、クリアして再設定する
+        if (zoom2Locker !== null) {
+            clearInterval(zoom2Locker);
+        }
+
+        // スライダーの値をメモリアドレスに定期的に書き込む
+        zoom2Locker = setInterval(function() {
+            h5gg.setValue("0x" + (zoom).toString(16), slidersec, 'F64');
+        }, 1);  // 1msごとに値を更新
+    }
+}
 
 // ズーム機能
 function zoome() {
